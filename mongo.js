@@ -1,8 +1,7 @@
 //crud
 
-const mongodb=require('mongodb')
 
-const MongoClient=mongodb.MongoClient
+const {MongoClient,ObjectID}=require('mongodb')
 
 const connectionURL= 'mongodb://127.0.0.1:27017'
 const databsename='task-manager'
@@ -39,5 +38,14 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>
 }],(error,result)=>{
     console.log(result.ops)
 }) */
+   
+db.collection('users').findOne({name:'sahak'},(error,user)=>{
+
+    if(error)
+    {return console.log("Unabel to find")
+    }
+    console.log(user)
+})
+
 }
 )
