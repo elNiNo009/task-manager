@@ -18,8 +18,26 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>
 
    const db=client.db(databsename)
 
-   db.collection('users').insertOne({
+  /* db.collection('users').insertMany([{
        name:'sarthak',
        age:'25'
+   },
+{
+    name:'so',
+    age:'21'
+}],(error,result)=>{
+       console.log(result.ops)
    })
-})
+   
+   db.collection('tasks').insertMany([{
+    description:'cleaning',
+    completed:true
+},
+{
+ description:'renew inspection',
+ completed:false
+}],(error,result)=>{
+    console.log(result.ops)
+}) */
+}
+)
