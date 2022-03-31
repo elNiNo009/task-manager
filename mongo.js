@@ -16,36 +16,17 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>
    // console.log("connected to server")
 
    const db=client.db(databsename)
-
-  /* db.collection('users').insertMany([{
-       name:'sarthak',
-       age:'25'
-   },
-{
-    name:'so',
-    age:'21'
-}],(error,result)=>{
-       console.log(result.ops)
-   })
    
-   db.collection('tasks').insertMany([{
-    description:'cleaning',
-    completed:true
-},
-{
- description:'renew inspection',
- completed:false
-}],(error,result)=>{
-    console.log(result.ops)
-}) */
-   
-db.collection('users').findOne({name:'sahak'},(error,user)=>{
+    db.collection('users').deleteMany({age:'25'}).then((result)=>
+    {
+        console.log(result)
+    }).catch((error)=>{
+        console.log(error)
+    })
 
-    if(error)
-    {return console.log("Unabel to find")
-    }
-    console.log(user)
-})
+ //   updatePromise
+
+
 
 }
 )
