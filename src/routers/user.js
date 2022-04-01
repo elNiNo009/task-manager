@@ -13,8 +13,7 @@ router.post('/users', async (req,res)=>{            //creation endpoit for user
         }
     catch (error)
     {
-        res.status(400)
-        res.send(error)
+        res.status(400).send(error)
     }
 })
 
@@ -64,7 +63,13 @@ router.patch('/users/:id',async(req,res)=>{           //update endpoint user
     }
    
     try{
-        const user= await User.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+
+        const user=await User.findById(req.params.id)
+        updates.forEach((update)=>{
+            user[update]=req.body[update]
+        })
+        await user.save()
+        //const user= await User.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         if(!user)
         {
           
@@ -96,3 +101,4 @@ router.delete('/users/:id',async(req,res)=>{          //delete endpoint user
 })
 
 module.exports=router
+
