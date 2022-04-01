@@ -33,6 +33,64 @@ app.post('/tasks',(req,res)=>{             //creation endpoint for task
    
 })
 
+app.get('/users',(req,res)=>{
+    User.find({}).then((users)=>{
+        console.log("there")
+
+        res.send(users)
+
+    }).catch((e)=>{
+         res.status(500).send(e)
+    })
+})
+
+app.get('/users/:id',(req,res)=>{
+    const user_id=req.params.id
+   // console.log("here I")
+    User.findById(user_id).then((users)=>{
+       // console.log("here")
+        if(!users)
+        {
+            
+            return res.status(404).send()
+        }
+        res.send(users)
+
+    }).catch((e)=>{
+         res.status(500).send(e)
+    })
+    
+})
+
+
+app.get('/tasks',(req,res)=>{
+    Task.find({}).then((tasks)=>{
+      //  console.log("there")
+
+        res.send(tasks)
+
+    }).catch((e)=>{
+         res.status(500).send(e)
+    })
+})
+
+app.get('/tasks/:id',(req,res)=>{
+    const task_id=req.params.id
+   // console.log("here I")
+    Task.findById(task_id).then((tasks)=>{
+       // console.log("here")
+        if(!tasks)
+        {
+            
+            return res.status(404).send()
+        }
+        res.send(tasks)
+
+    }).catch((e)=>{
+         res.status(500).send(e)
+    })
+    
+})
 
 app.listen(port, ()=>{
     console.log('Serevr is running '+ port)
