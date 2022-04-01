@@ -17,6 +17,17 @@ router.post('/users', async (req,res)=>{            //creation endpoit for user
     }
 })
 
+router.post('/users/login', async (req, res) => {
+    try {
+     //   console.log("here")
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        res.send(user)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
+
+
 router.get('/users',async (req,res)=>{               //reading endpoint user many
     
     try{
