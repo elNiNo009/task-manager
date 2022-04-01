@@ -33,7 +33,7 @@ app.post('/tasks',(req,res)=>{             //creation endpoint for task
    
 })
 
-app.get('/users',(req,res)=>{
+app.get('/users',(req,res)=>{               //reading endpoint user many
     User.find({}).then((users)=>{
         console.log("there")
 
@@ -44,7 +44,7 @@ app.get('/users',(req,res)=>{
     })
 })
 
-app.get('/users/:id',(req,res)=>{
+app.get('/users/:id',(req,res)=>{           //reading endpoint user single
     const user_id=req.params.id
    // console.log("here I")
     User.findById(user_id).then((users)=>{
@@ -63,7 +63,7 @@ app.get('/users/:id',(req,res)=>{
 })
 
 
-app.get('/tasks',(req,res)=>{
+app.get('/tasks',(req,res)=>{                //reading endpoint task many
     Task.find({}).then((tasks)=>{
       //  console.log("there")
 
@@ -74,7 +74,7 @@ app.get('/tasks',(req,res)=>{
     })
 })
 
-app.get('/tasks/:id',(req,res)=>{
+app.get('/tasks/:id',(req,res)=>{           //reading endpoint task single
     const task_id=req.params.id
    // console.log("here I")
     Task.findById(task_id).then((tasks)=>{
