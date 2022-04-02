@@ -24,11 +24,16 @@ router.post('/tasks',auth,async (req,res)=>{             //creation endpoint for
 
 router.get('/tasks',auth,async (req,res)=>{                //reading endpoint task many
     try{
-          //   console.log("readin tasks")
-           //  console.log(req.user)
-      //  const tasks=await Task.find({owner:req.user._id})
-      await req.user.populate('tasks').execPopulate()
-     // console.log(req.user.tasks)
+          const match ={}
+          if(req.query.Completed){
+              match.Completed=req.query.Completed==='true'
+          }
+      await req.user.populate({
+          path:'tasks',
+           match
+          
+      }).execPopulate()
+     
         res.send(req.user.tasks)
     }catch(e)
     {
