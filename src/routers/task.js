@@ -25,6 +25,15 @@ router.post('/tasks',auth,async (req,res)=>{             //creation endpoint for
 router.get('/tasks',auth,async (req,res)=>{                //reading endpoint task many
     try{
           const match ={}
+          const sort={}
+          if(req.query.sortBy)
+          {
+              console.log('herere')
+              const parts=req.query.sortBy.split(':')
+              sort[parts[0]] = parts[1]==='desc'?-1:1
+            //  console.log(parts[0])
+             // console.log(parts[1])
+          }
           if(req.query.Completed){
               match.Completed=req.query.Completed==='true'
           }
@@ -33,8 +42,8 @@ router.get('/tasks',auth,async (req,res)=>{                //reading endpoint ta
            match,
            options:{
                limit:parseInt(req.query.limit),
-               skip:parseInt(req.query.skip)
-
+               skip:parseInt(req.query.skip),
+               sort
            }
           
       }).execPopulate()
