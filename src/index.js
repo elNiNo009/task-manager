@@ -11,6 +11,8 @@ const taskRouter=require('./routers/task')
 const app=express()
 const port=process.env.PORT || 3000
 
+
+
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
@@ -19,6 +21,8 @@ app.use(taskRouter)
 app.listen(port, ()=>{
     console.log('Serevr is running '+ port)
 })
+
+
 
 //const jwt=require('jsonwebtoken')
 
@@ -36,4 +40,11 @@ app.listen(port, ()=>{
 }
 
 myFunction()
+
+
+
+app.use((req,res,next)=>{                   // express middleware
+console.log(req.method, req.path)
+next()                                     //done with middleware
+})
 */
