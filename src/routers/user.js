@@ -30,6 +30,31 @@ router.post('/users/login', async (req, res) => {       //user login
     }
 })
 
+router.post('/users/logout',auth, async (req, res) => {       //user logout single session
+    try{
+            req.user.tokens=req.user.tokens.filter((token)=>{     //logout single session
+                return token.token!==req.token
+            })
+            await req.user.save()
+            res.send()
+    }catch(e)
+    {
+res.status(500).send()
+    }
+
+})
+router.post('/users/logoutall',auth, async (req, res) => {       //user logout all session
+    try{
+            req.user.tokens=[]
+            await req.user.save()
+            res.send()
+    }catch(e)
+    {
+res.status(500).send()
+    }
+
+})
+
 
 router.get('/users/me',auth,async (req,res)=>{               //reading endpoint user self profile
     
