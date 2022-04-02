@@ -21,7 +21,7 @@ router.post('/users', async (req,res)=>{            //creation endpoit for user
 
 router.post('/users/login', async (req, res) => {       //user login
     try {
-     //   console.log("here")
+       console.log("user login")
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token=await user.generateAuthToken()
         res.send({user,token})
@@ -45,6 +45,7 @@ res.status(500).send()
 })
 router.post('/users/logoutall',auth, async (req, res) => {       //user logout all session
     try{
+        console.log('logout aal')
             req.user.tokens=[]
             await req.user.save()
             res.send()
@@ -57,7 +58,7 @@ res.status(500).send()
 
 
 router.get('/users/me',auth,async (req,res)=>{               //reading endpoint user self profile
-    
+    console.log('reading self')
    res.send(req.user)
    
 })
