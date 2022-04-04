@@ -116,33 +116,66 @@ router.delete('/users/me',auth,async(req,res)=>{          //delete endpoint user
 })
 
 const upload=multer({        //working with file to be uploaded :: look multer
-    dest:'avatar',
-    limits:{
-        fileSize:1000000
-    },
-    fileFilter(req,file,cb){
+    // dest:'avatar',
+     limits:{
+         fileSize:1000000
+     },
+     fileFilter(req,file,cb){
+ 
+            if(!file.originalname.match(/\.(jpg|jpeg|png)$/))
+            {
+             return cb(new Error('File must be a image'))  
+            }
+ 
+            
+         // cb(new Error('File must be a pdf'))
+            cb(undefined,true)
+         // cb(undefined,false)
+     
+     }
+ })
 
-           if(!file.originalname.match(/\.(jpg|jpeg|png)$/))
-           {
-            return cb(new Error('File must be a image'))  
-           }
-
-           
-        // cb(new Error('File must be a pdf'))
-           cb(undefined,true)
-        // cb(undefined,false)
-    
-    }
-})
-
-router.post('/users/me/avatar', upload.single('avatar'),(req,res)=>{      //upload file
-
-    console.log("uploading")
+router.post('/users/me/avatar',auth, upload.single('avatar'),async (req,res)=>{      //upload file
+   
+    req.user.avatar=req.file.buffer
+    await req.user.save()
     res.status(200).send()
+
 },(error,req,res,next)=>{
     res.status(400).send({error:error.message})
-}
- )
+} )
+
+router.delete('/users/me/avatar',auth,async (req,res)=>{      //delete profile pic
+   
+   // req.user.avatar=req.file.buffer
+    req.user.avatar=undefined
+    await req.user.save()
+    res.status(200).send()
+
+} )
+
+router.get('/users/:id/avatar',async (req,res)=>{      //upload file
+   
+    try{
+        const user=await User.findById(req.params.id)
+
+        if(!user || !user.avatar)
+        {
+            throw new Error()
+        }
+         
+        res.set('Content-Type','image.jpg')
+        res.send(user.avatar)
+    }
+    catch(e)
+    {
+        res.status(404).send()
+    }
+   
+})
+
+
+
 
 module.exports=router
 
