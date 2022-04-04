@@ -2,6 +2,7 @@ const express=require('express')
 const User=require('../models/user')
 const router= new express.Router()
 const auth=require('../middleware/auth')
+const multer=require('multer')
 
 router.post('/users', async (req,res)=>{            //creation endpoit for user
   
@@ -113,6 +114,35 @@ router.delete('/users/me',auth,async(req,res)=>{          //delete endpoint user
         res.status(500).send(e)
     }
 })
+
+const upload=multer({        //working with file to be uploaded :: look multer
+    dest:'avatar',
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+
+           if(!file.originalname.match(/\.(doc|docx)$/))
+           {
+            return cb(new Error('File must be a pdf'))  
+           }
+
+           
+        // cb(new Error('File must be a pdf'))
+           cb(undefined,true)
+        // cb(undefined,false)
+    
+    }
+})
+
+router.post('/users/me/avatar', upload.single('avatar'),(req,res)=>{      //upload file
+
+    console.log("uploading")
+    res.status(200).send()
+   
+   
+    
+} )
 
 module.exports=router
 
