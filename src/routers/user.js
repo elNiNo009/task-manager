@@ -122,9 +122,9 @@ const upload=multer({        //working with file to be uploaded :: look multer
     },
     fileFilter(req,file,cb){
 
-           if(!file.originalname.match(/\.(doc|docx)$/))
+           if(!file.originalname.match(/\.(jpg|jpeg|png)$/))
            {
-            return cb(new Error('File must be a pdf'))  
+            return cb(new Error('File must be a image'))  
            }
 
            
