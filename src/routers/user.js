@@ -4,6 +4,7 @@ const router= new express.Router()
 const auth=require('../middleware/auth')
 const multer=require('multer')
 const sharp=require('sharp')
+const{ sendWelcomeEmail,sendDeleteEmail} =require('../emails/account')
 
 router.post('/users', async (req,res)=>{            //creation endpoit for user
   
@@ -12,6 +13,7 @@ router.post('/users', async (req,res)=>{            //creation endpoit for user
     try
         {
          await user.save()
+         sendWelcomeEmail(user.email,user.name)  //send email to new account 
          const token=await user.generateAuthToken()
          res.status(201).send({user,token})
         }
@@ -45,6 +47,7 @@ res.status(500).send()
     }
 
 })
+
 router.post('/users/logoutall',auth, async (req, res) => {       //user logout all session
     try{
         console.log('logout aal')
@@ -57,7 +60,6 @@ res.status(500).send()
     }
 
 })
-
 
 router.get('/users/me',auth,async (req,res)=>{               //reading endpoint user self profile
     console.log('reading self')
@@ -106,8 +108,9 @@ router.delete('/users/me',auth,async(req,res)=>{          //delete endpoint user
         //      return res.status(404).send()
         //  }
         //  res.send(user)
-
+        sendDeleteEmail(req.user.email,req.user.name)
         await req.user.remove()
+         
         res.send(req.user)
     }
     catch(e)
